@@ -11,7 +11,7 @@ format:
 
 # Introduction
 
-We have attempted to draw a comparison between the female labour force participation in a number of selected countries along with the maternity leave provided across the period from 1998-2008, while also looking at the GDP per Capita and the Health Expenditure per Capita at constant 2005 \$ levels.
+We have attempted to draw a comparison between the female labor force participation in a number of selected countries along with the maternity leave provided across the period from 1998-2008, while also looking at the GDP per capita and the Health Expenditure per capita at constant 2005 \$ levels.
 
 [Data source](https://dataverse.harvard.edu/file.xhtml?persistentId=doi:10.7910/DVN/YXYS7Y/2WHD9A&version=1.1)
 
@@ -24,7 +24,7 @@ maternityleave <- read_csv("/Users/ritwika.rituparna/Documents/Georgetown/Spring
 
 ## GDP per Capita by Country
 
-(2-3 describing graph and how it informs policy decision)
+This is a horizontal bar graph titled "GDP per Capita by Country," with the GDP per capita values measured in constant 2005 \$. The GDP per capita is measured for different countries for the year 2008. Columbia has the highest GDP per capita which is \$3,832.495 whereas Malawi has the lowest GDP per capita expenditure of \$235.915.
 
 ```{r}
 maternityleave %>%
@@ -41,21 +41,42 @@ maternityleave %>%
 
 ```
 
-## Female Labour Force Participation across Countries
+## Health Expenditure per Capita by Country
+
+The following graph tells us about the health expenditure per capita for all the countries across 1998-2008. A country with a high GDP per capita will tend to have better public services such as education and healthcare facilities which are aimed at welfare of its citizens. Across all the countries, Colombia has the highest health expenditure per capita which can be linked to the country having the highest GDP per capita in 2008 as well.
+
+```{r}
+maternityleave %>%
+         ggplot() +
+  geom_boxplot(mapping = aes(x=country, y=phecapita, fill = country),alpha=0.1) +
+  theme(axis.text.x = element_text(angle = 45, hjust=1)) +
+  labs(
+    x = "Country",
+    y = "Health Expenditure per Capita (in constant 2005 $)",
+    title = "Health Expenditure per Capita by Country, 1998-2008",
+    caption = "Source: Harvard Dataverse - country_vars.tab"
+  )
+```
+
+## Female Labor Force Participation across Countries
+
+The following graph tells us about female labor force participation rate for different countries between the years 1998-2008. From this graph, a notable observation that we can make is that for countries with high GDP per capita in the year 2008, such as Colombia and Honduras have a low female labor force participation. This indicates that when the GDP per capita is high, the female labor participation rate is tends to be low. Moreover, we find that countries with a low GDP per capita such as Tanzania and Uganda have a high female labor force participation. This could be because as evidence suggests, with an increase in GDP per capita, some women who otherwise would worked out of necessity will choose not to work and instead spend their time on activities outside of labor market.
 
 ```{r}
 ggplot(maternityleave) +
   geom_line(mapping = aes(x = yearbirth, y = lfp, color = country)) + 
   labs(
     x= "Year",
-    y= "Female Labour Force Participation Rate (%)",
-    title = "Female Labour Force Participation, 1998-2008",
+    y= "Female Labor Force Participation Rate (%)",
+    title = "Female Labor Force Participation, 1998-2008",
     caption = "Source: Harvard Dataverse - country_vars.tab"  
   ) + 
   theme_classic()
 ```
 
 ## Paid Maternity Leave across Countries
+
+This is a scatter plot of the amount of maternity leave (in number of weeks) is given to women across countries in the year 2008. We find that in most countries maternity leave varies between 12-13 weeks. Thus, the paid maternity leave does not seem to affect the female labor force participation in a country.
 
 ```{r}
 
@@ -68,23 +89,6 @@ ggplot(maternityleave,filter(maternityleave, yearbirth==2008), mapping= aes(x = 
     x= "Country",
     y= "Weeks of Paid Maternity Leave",
     title = "Weeks of Paid Maternity Leave across Countries", 
-    caption = "Source: Harvard Dataverse - country_vars.tab"
-  )
-```
-
-## Health Expenditure per Capita by Country
-
-The following graph tells us about the health expenditure per capita for all the countries across 1998-2008. Across all the countries, Colombia has the highest health expenditure per capita which can be linked to the country having the highest GDP per capita as well. (add how it informs policy decision)
-
-```{r}
-maternityleave %>%
-         ggplot() +
-  geom_boxplot(mapping = aes(x=country, y=phecapita, fill = country),alpha=0.1) +
-  theme(axis.text.x = element_text(angle = 45, hjust=1)) +
-  labs(
-    x = "Country",
-    y = "Health Expenditure per Capita (in constant 2005 $)",
-    title = "Health Expenditure per Capita by Country, 1998-2008",
     caption = "Source: Harvard Dataverse - country_vars.tab"
   )
 ```
