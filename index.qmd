@@ -1,13 +1,19 @@
 ---
 title: "Data Science for Public Policy"
 subtitle: "Assignment 04"
-author: "Ritwika Rituparna and Sona Sarin"
+authors: "Ritwika Rituparna and Sona Sarin"
 execute:
   warning: false
 format:
   html:
     embed-resources: true
 ---
+
+# Introduction
+
+We have attempted to draw a comparison between the female labour force participation in a number of selected countries along with the maternity leave provided across the period from 1998-2008, while also looking at the GDP per Capita and the Health Expenditure per Capita at constant 2005 \$ levels.
+
+[Data source](https://dataverse.harvard.edu/file.xhtml?persistentId=doi:10.7910/DVN/YXYS7Y/2WHD9A&version=1.1)
 
 ```{r}
 library(tidyverse)
@@ -16,20 +22,26 @@ maternityleave <- read_csv("/Users/ritwika.rituparna/Documents/Georgetown/Spring
 
 ```
 
-```{r}
+## GDP per Capita by Country
 
+(2-3 describing graph and how it informs policy decision)
+
+```{r}
 maternityleave %>%
   filter(yearbirth==2008) %>%
          ggplot() +
   geom_col(mapping = aes(x = gdpcapita, y = country)) +
   labs(
-    x= "GDP per Capita ($ in 2005)",
+    x= "GDP per Capita (in constant 2005 $)",
     y= "Country",
-    title = "GDP per Capita by Country"
+    title = "GDP per Capita by Country",
+    caption = "Source: Harvard Dataverse - country_vars.tab"
   ) + 
   theme_classic()
 
 ```
+
+## Female Labour Force Participation across Countries
 
 ```{r}
 ggplot(maternityleave) +
@@ -37,10 +49,13 @@ ggplot(maternityleave) +
   labs(
     x= "Year",
     y= "Female Labour Force Participation Rate (%)",
-    title = "Female Labour Force Participation, 1998-2008"
+    title = "Female Labour Force Participation, 1998-2008",
+    caption = "Source: Harvard Dataverse - country_vars.tab"  
   ) + 
   theme_classic()
 ```
+
+## Paid Maternity Leave across Countries
 
 ```{r}
 
@@ -52,9 +67,14 @@ ggplot(maternityleave,filter(maternityleave, yearbirth==2008), mapping= aes(x = 
   labs(
     x= "Country",
     y= "Weeks of Paid Maternity Leave",
-    title = "Weeks of Paid Maternity Leave across Countries"
+    title = "Weeks of Paid Maternity Leave across Countries", 
+    caption = "Source: Harvard Dataverse - country_vars.tab"
   )
 ```
+
+## Health Expenditure per Capita by Country
+
+The following graph tells us about the health expenditure per capita for all the countries across 1998-2008. Across all the countries, Colombia has the highest health expenditure per capita which can be linked to the country having the highest GDP per capita as well. (add how it informs policy decision)
 
 ```{r}
 maternityleave %>%
@@ -63,7 +83,8 @@ maternityleave %>%
   theme(axis.text.x = element_text(angle = 45, hjust=1)) +
   labs(
     x = "Country",
-    y = "Health Expenditure per Capita ($ in 2005)",
-    title = "Health Expenditure per Capita across Countries, 1998-2008"
+    y = "Health Expenditure per Capita (in constant 2005 $)",
+    title = "Health Expenditure per Capita by Country, 1998-2008",
+    caption = "Source: Harvard Dataverse - country_vars.tab"
   )
 ```
