@@ -9,23 +9,61 @@ format:
     embed-resources: true
 ---
 
-## Quarto
-
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
-
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
 ```{r}
-1 + 1
+library(tidyverse)
+library(readr)
+maternityleave <- read_csv("/Users/ritwika.rituparna/Documents/Georgetown/Spring 2024/Intro to Data Science/assignment04/Data/maternity_country.csv")
+
 ```
 
-You can add options to executable code like this
-
 ```{r}
-#| echo: false
-2 * 2
+
+maternityleave %>%
+  filter(yearbirth==2008) %>%
+         ggplot() +
+  geom_col(mapping = aes(x = gdpcapita, y = country)) +
+  labs(
+    x= "GDP per Capita ($ in 2005)",
+    y= "Country",
+    title = "GDP per Capita by Country"
+  ) + 
+  theme_classic()
+
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+```{r}
+ggplot(maternityleave) +
+  geom_line(mapping = aes(x = yearbirth, y = lfp, color = country)) + 
+  labs(
+    x= "Year",
+    y= "Female Labour Force Participation Rate (%)",
+    title = "Female Labour Force Participation, 1998-2008"
+  ) + 
+  theme_classic()
+```
+
+```{r}
+
+ggplot(maternityleave,filter(maternityleave, yearbirth==2008), mapping= aes(x = country, y = durw_lag3,label=durw_lag3)) +
+ geom_point()+
+  geom_text(size = 3, vjust = -0.8)+
+  theme(axis.text.x = element_text(angle = 45, hjust=1)) +
+  scale_y_continuous() +
+  labs(
+    x= "Country",
+    y= "Weeks of Paid Maternity Leave",
+    title = "Weeks of Paid Maternity Leave across Countries"
+  )
+```
+
+```{r}
+maternityleave %>%
+         ggplot() +
+  geom_boxplot(mapping = aes(x=country, y=phecapita, fill = country),alpha=0.1) +
+  theme(axis.text.x = element_text(angle = 45, hjust=1)) +
+  labs(
+    x = "Country",
+    y = "Health Expenditure per Capita ($ in 2005)",
+    title = "Health Expenditure per Capita across Countries, 1998-2008"
+  )
+```
